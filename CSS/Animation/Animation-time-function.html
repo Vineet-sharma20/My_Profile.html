@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Box-container</title>
+    <style>
+        .box-container{
+            width:800px;
+            height:200px;
+            border: 2px solid black;
+            margin: auto;
+            position: relative;
+        } 
+        .box{
+            width: 200px;
+            height: 100px;
+            background-color: red;
+            margin-top:50px;
+            position: absolute;
+            animation-name: box;
+            animation-duration: 2s; 
+            animation-delay: 2s;
+            animation-timing-function: linear; /*Linear/ease/ease-in/ease-out/ease-in-out*/
+
+        }
+        @keyframes box{
+            from{
+                left: 0px;
+            }
+            to{
+                left: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="box-container">
+         <div class="box"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+.main{
+    width: 1000px;
+    height: 400px;
+    background: red;
+    font-size: 150px;
+    color: white;
+}
+.main:hover{
+    color: black;
+    background: yellow;
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Box-container</title>
+    <style>
+        .box-container{
+            width:500px;
+            height:500px;
+            border: 2px solid black;
+            margin: auto;
+            position: relative;
+        } 
+        .box{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: absolute;
+            border-radius: 50%;
+            animation-name: box;
+            animation-duration: 2s;
+            animation-delay: 2s;
+            animation-iteration-count: 5;
+            animation-fill-mode: backwards;  /*backwards/forword/both*/
+            animation-direction: alternate;  /*alternate/reverse/normal*/
+        }
+        @keyframes box{
+            0%{
+                top: 0px;
+                left: 0px;
+                background: red;
+            }
+            25%{
+                top: 0px;
+                left: 400px;
+                background: yellow;
+            }
+            50%{
+                top: 400px;
+                left: 400px;
+                background: blue;
+            }
+            75%{
+                top: 400px;
+                left: 0px;
+                background: green;
+            }
+            100%{
+                top: 0px;
+                left: 0px;
+                background: red;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="box-container">
+         <div class="box"></div>
+    </div>
+</body>
+</html>
