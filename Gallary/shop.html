@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shiv General Store</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background: #222;
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin: 10px 0 5px 0;
+    }
+
+    header h2 {
+      font-size: 1.2rem;
+      margin: 0;
+      font-weight: normal;
+    }
+
+    header p {
+      margin: 5px 0 0 0;
+      font-size: 1rem;
+    }
+
+    /* Left Corner Name Box */
+    .name-box {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: black;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      box-shadow: 0 0 20px rgba(255,255,255,0.6);
+      animation: glow 2s infinite alternate;
+      z-index: 1000;
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+      to { box-shadow: 0 0 25px rgba(255,255,255,0.8); }
+    }
+
+    section {
+      display: none;
+      padding: 20px;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    form input, form select, button {
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #999;
+      border-radius: 8px;
+      width: 100%;
+    }
+
+    button {
+      background: #ff6600;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #e55b00;
+    }
+
+    .product {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 10px 0;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .product img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .cart {
+      margin-top: 20px;
+      padding: 15px;
+      border: 2px dashed #444;
+      background: #fafafa;
+      border-radius: 10px;
+    }
+
+    .qr {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .qr img {
+      width: 180px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Left Corner Name Box -->
+  <div class="name-box">
+    Vineet Sharma → Mr. Mukesh Sharma
+  </div>
+
+  <header>
+    <h1>🛍 Shiv General Store</h1>
+    <h2>Chandaus, Aligarh</h2>
+    <p>📞 Contact: 9720115771</p>
+  </header>
+
+  <!-- Step 1: Customer Form -->
+  <section id="step1" class="active">
+    <h2>Fill Your Details</h2>
+    <form id="customerForm">
+      <input type="text" id="name" placeholder="Enter Your Name" required>
+      <input type="text" id="village" placeholder="Enter Your Village" required>
+      <select id="item" required>
+        <option value="">Select Item</option>
+        <option value="chapal">Chapal</option>
+        <option value="joota">Joota</option>
+        <option value="socks">Socks</option>
+        <option value="oil">Oil</option>
+        <option value="baniyan">Baniyan</option>
+        <option value="nekar">Nekar</option>
+        <option value="silai">Silai Ka Saman</option>
+      </select>
+      <button type="submit">Next</button>
+    </form>
+  </section>
+
+  <!-- Step 2: Item Details -->
+  <section id="step2">
+    <h2>Choose Details</h2>
+    <form id="detailsForm">
+      <select id="company" required>
+        <option value="">Select Company</option>
+        <option value="Bata">Bata</option>
+        <option value="Relaxo">Relaxo</option>
+        <option value="Local">Local</option>
+      </select>
+      <input type="text" id="size" placeholder="Enter Size / Quantity" required>
+      <select id="quality" required>
+        <option value="">Select Quality</option>
+        <option value="Premium">Premium</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+      <button type="submit">Next</button>
+    </form>
+  </section>
+
+  <!-- Step 3: Product List -->
+  <section id="step3">
+    <h2>Available Products</h2>
+    <div id="productList"></div>
+    <button onclick="goToCart()">Go to Cart</button>
+  </section>
+
+  <!-- Step 4: Cart + Payment -->
+  <section id="step4">
+    <h2>Your Cart</h2>
+    <div class="cart" id="cartItems"></div>
+    <div class="qr">
+      <p>Pay using QR Code</p>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=9720115771" alt="QR Code">
+    </div>
+  </section>
+
+  <script>
+    const customerForm = document.getElementById("customerForm");
+    const detailsForm = document.getElementById("detailsForm");
+    const productList = document.getElementById("productList");
+    const cartItems = document.getElementById("cartItems");
+
+    let selectedItem = "";
+    let cart = [];
+
+    // Step 1 -> Step 2
+    customerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      selectedItem = document.getElementById("item").value;
+      document.getElementById("step1").classList.remove("active");
+      document.getElementById("step2").classList.add("active");
+    });
+
+    // Step 2 -> Step 3
+    detailsForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      document.getElementById("step2").classList.remove("active");
+      document.getElementById("step3").classList.add("active");
+
+      // Example Products
+      const products = [
+        { name: "Bata Chapal", price: 250, img: "https://via.placeholder.com/80?text=Chapal" },
+        { name: "Relaxo Joota", price: 500, img: "https://via.placeholder.com/80?text=Joota" },
+        { name: "Premium Socks", price: 120, img: "https://via.placeholder.com/80?text=Socks" },
+        { name: "Mustard Oil", price: 180, img: "https://via.placeholder.com/80?text=Oil" },
+        { name: "Baniyan Cotton", price: 200, img: "https://via.placeholder.com/80?text=Baniyan" },
+        { name: "Kids Nekar", price: 150, img: "https://via.placeholder.com/80?text=Nekar" },
+        { name: "Silai Needle Set", price: 80, img: "https://via.placeholder.com/80?text=Silai" }
+      ];
+
+      productList.innerHTML = "";
+      products.forEach((p, i) => {
+        const div = document.createElement("div");
+        div.classList.add("product");
+        div.innerHTML = `
+          <img src="${p.img}" alt="${p.name}">
+          <div>
+            <h3>${p.name}</h3>
+            <p>Price: ₹${p.price}</p>
+            <button onclick="addToCart(${i})">Add to Cart</button>
+          </div>
+        `;
+        productList.appendChild(div);
+      });
+
+      window.products = products;
+    });
+
+    function addToCart(i) {
+      cart.push(window.products[i]);
+      alert(window.products[i].name + " added to cart!");
+    }
+
+    function goToCart() {
+      document.getElementById("step3").classList.remove("active");
+      document.getElementById("step4").classList.add("active");
+
+      cartItems.innerHTML = "";
+      cart.forEach((c) => {
+        cartItems.innerHTML += `<p>${c.name} - ₹${c.price}</p>`;
+      });
+    }
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Voting System</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #6dd5ed, #2193b0);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      max-width: 500px;
+      width: 100%;
+      background: #fff;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    h2 { color: #222; margin-bottom: 15px; }
+    input {
+      width: 90%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+    button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    button:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+    .bjp { background: #ff9933; }
+    .bsp { background: #0047ab; }
+    .aap { background: #28a745; }
+    .congress { background: #ff4444; }
+    .other { background: #666; }
+    .loginBtn { background: #222; }
+    #resultChart { margin-top: 20px; }
+    .percentages {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #333;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="loginPage">
+    <h2>🗳 Voter Login</h2>
+    <input type="text" id="voterName" placeholder="Enter Name" required>
+    <input type="text" id="voterId" placeholder="Enter Voter ID" required>
+    <input type="number" id="voterAge" placeholder="Enter Age" required>
+    <button class="loginBtn" onclick="login()">Proceed to Vote</button>
+  </div>
+
+  <div class="container" id="votingPage" style="display:none;">
+    <h2>🗳 Cast Your Vote</h2>
+    <p>Select your Party:</p>
+    <button class="bjp" onclick="vote('BJP')">Vote for BJP</button>
+    <button class="bsp" onclick="vote('BSP')">Vote for BSP</button>
+    <button class="aap" onclick="vote('AAP')">Vote for AAP</button>
+    <button class="congress" onclick="vote('Congress')">Vote for Congress</button>
+    <button class="other" onclick="vote('Other')">Vote for Other</button>
+    <h3>📊 Live Results</h3>
+    <canvas id="resultChart"></canvas>
+    <div class="percentages" id="percentages"></div>
+  </div>
+
+  <script>
+    let votes = JSON.parse(localStorage.getItem("votes")) || { BJP: 0, BSP: 0, AAP: 0, Congress: 0, Other: 0 };
+    let chart;
+
+    function login() {
+      const name = document.getElementById("voterName").value.trim();
+      const id = document.getElementById("voterId").value.trim();
+      const age = parseInt(document.getElementById("voterAge").value);
+      if (!name || !id || !age) { alert("⚠️ Please fill all details!"); return; }
+      if (age < 18) { alert("❌ You must be 18+ to vote!"); return; }
+      if (localStorage.getItem("hasVoted_"+id)) { alert("⚠️ You have already voted!"); return; }
+      localStorage.setItem("currentVoter", id);
+      document.getElementById("loginPage").style.display = "none";
+      document.getElementById("votingPage").style.display = "block";
+      loadChart();
+    }
+
+    function vote(party) {
+      let voterId = localStorage.getItem("currentVoter");
+      if (!voterId) { alert("⚠️ Please login first!"); return; }
+      if (localStorage.getItem("hasVoted_"+voterId)) { alert("⚠️ You have already voted!"); return; }
+      votes[party]++;
+      localStorage.setItem("votes", JSON.stringify(votes));
+      localStorage.setItem("hasVoted_"+voterId, true);
+      alert("✅ Your vote has been recorded for " + party);
+      loadChart();
+    }
+
+    function loadChart() {
+      const ctx = document.getElementById('resultChart');
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['BJP', 'BSP', 'AAP', 'Congress', 'Other'],
+          datasets: [{
+            data: [votes.BJP, votes.BSP, votes.AAP, votes.Congress, votes.Other],
+            backgroundColor: ['#ff9933','#0047ab','#28a745','#ff4444','#666']
+          }]
+        }
+      });
+      showPercentages();
+    }
+
+    function showPercentages() {
+      const total = votes.BJP + votes.BSP + votes.AAP + votes.Congress + votes.Other;
+      if (total === 0) {
+        document.getElementById("percentages").innerHTML = "No votes yet.";
+        return;
+      }
+      let bjpP = ((votes.BJP/total)*100).toFixed(1);
+      let bspP = ((votes.BSP/total)*100).toFixed(1);
+      let aapP = ((votes.AAP/total)*100).toFixed(1);
+      let congP = ((votes.Congress/total)*100).toFixed(1);
+      let othP = ((votes.Other/total)*100).toFixed(1);
+      document.getElementById("percentages").innerHTML =
+        `BJP: ${bjpP}% | BSP: ${bspP}% | AAP: ${aapP}% | Congress: ${congP}% | Other: ${othP}%`;
+    }
+  </script>
+</body>
+</html>

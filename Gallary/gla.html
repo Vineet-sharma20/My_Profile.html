@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLA University</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 50px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header img {
+            height: 50px;
+        }
+        nav a {
+            text-decoration: none;
+            color: black;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        .banner {
+            background: url('https://www.gla.ac.in/images/banner.jpg') no-repeat center/cover;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            position: relative;
+        }
+        .login-box {
+            position: absolute;
+            top: 20px;
+            right: 50px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            color: black;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .login-box button {
+            background: orangered;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .stat {
+            background: rgba(255,255,255,0.8);
+            color: black;
+            padding: 20px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+            border-radius: 8px;
+        }
+        .stat h2 {
+            color: orangered;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://www.gla.ac.in/images/logo.png" alt="GLA University">
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Admission</a>
+            <a href="#">Student Clubs</a>
+            <a href="#">Events</a>
+            <a href="#">Alumni</a>
+            <a href="#">Pratham</a>
+            <a href="#">Contact Us</a>
+        </nav>
+    </header>
+
+    <section class="banner">
+        <h1>Welcome to GLA University</h1>
+        <p>Feel The Difference With Us</p>
+        <h3>INDIA'S LEADING PRIVATE UNIVERSITY</h3>
+
+        <div class="login-box">
+            <h4>EXISTING STUDENTS</h4>
+            <button>CLICK TO LOGIN</button>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <h2>24K+</h2>
+                <p>Student Strength</p>
+            </div>
+            <div class="stat">
+                <h2>6K+</h2>
+                <p>Hostelers</p>
+            </div>
+            <div class="stat">
+                <h2>140</h2>
+                <p>Courses</p>
+            </div>
+            <div class="stat">
+                <h2>32</h2>
+                <p>Student Clubs</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

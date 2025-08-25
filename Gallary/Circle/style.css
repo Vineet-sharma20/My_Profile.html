@@ -1,0 +1,39 @@
+* {
+    margin:0px;
+    padding:0px;
+}
+body{
+    background-color: aqua;
+    text-align: center;
+}
+h1{
+    text-align: center;
+}
+.row{
+    height: 200px;
+    width: 200px;
+    border: solid black;
+    border-radius: 50%;
+    background-color: white;
+    overflow: hidden;
+}
+.row img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.first{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.row:hover{
+    height: 500px;
+    width: 500px;
+    display: flax;
+    justify-content: center;
+    align-items: center;
+}

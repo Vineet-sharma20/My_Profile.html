@@ -7,3 +7,6 @@ setTimeout(function(){
     y.innerHTML = "Good Night";
     y.style.color = "blue"
 }, 2000)
+
+ let z = document.getElementById("ele");
+ z.style.color = "green";
