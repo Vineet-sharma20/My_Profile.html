@@ -12,3 +12,7 @@ h2{
 #main{
     background-color: rgb(243, 154, 45);
 }
+img :hover{
+    height: 500px;
+    width: 500px;
+}
